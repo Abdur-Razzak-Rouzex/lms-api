@@ -5,7 +5,7 @@
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
-    "server": "nodemon server.js"
+    "dev": "nodemon server.js"
   },
   "keywords": [
     "lms",
@@ -14,6 +14,7 @@
   "author": "rouzex",
   "license": "ISC",
   "dependencies": {
+    "bcryptjs": "^2.4.3",
     "dotenv": "^16.4.1",
     "express": "^4.18.2",
     "mongoose": "^8.1.1"
