@@ -1,6 +1,9 @@
 const express = require("express");
 const adminRouter = require("../routes/staff/admin-router");
-const globalErrorHandler = require("../middlewares/globalErrorHandler");
+const {
+  globalErrorHandler,
+  notFoundError,
+} = require("../middlewares/globalErrorHandler");
 
 const app = express();
 
@@ -16,6 +19,7 @@ app.use((req, res, next) => {
 app.use("/api/v1/admins", adminRouter);
 
 // Error middleware
+app.use(notFoundError);
 app.use(globalErrorHandler);
 
 module.exports = app;
