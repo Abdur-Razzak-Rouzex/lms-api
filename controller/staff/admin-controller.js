@@ -1,42 +1,34 @@
+const asyncErrorHandler = require("express-async-handler");
 const AdminModel = require("../../model/staff/admin");
 
 //@des Register Admin
 //@route POST /api/v1/admins/register
 //@access Private
-
-exports.registerAdminController = async (req, res) => {
+exports.registerAdminController = asyncErrorHandler(async (req, res) => {
   const { name, email, password } = req.body;
 
-  try {
-    // Check if email is already exists
-    const isEmailFound = await AdminModel.findOne({ email });
-    /* if (isEmailFound) {
-      res.json("Admin exists");
-    } */
-
-    // register admin
-    const newAdmin = await AdminModel.create({
-      name,
-      email,
-      password,
-    });
-
-    res.status(201).json({
-      status: "success",
-      data: newAdmin,
-    });
-  } catch (error) {
-    res.json({
-      status: "failed",
-      error: error.message,
-    });
+  // Check if email is already exists
+  const isEmailFound = await AdminModel.findOne({ email });
+  if (isEmailFound) {
+    throw new Error("Admin already exists");
   }
-};
+
+  // register admin
+  const newAdmin = await AdminModel.create({
+    name,
+    email,
+    password,
+  });
+
+  res.status(201).json({
+    status: "success",
+    data: newAdmin,
+  });
+});
 
 //@des Register Login
 //@route POST /api/v1/admins/login
 //@access Private
-
 exports.loginAdminController = async (req, res) => {
   const { email, password } = req.body;
 
@@ -73,7 +65,6 @@ exports.loginAdminController = async (req, res) => {
 //@des Get All Admins
 //@route GET /api/v1/admins
 //@access Private
-
 exports.getAdminsContoller = (req, res) => {
   try {
     res.status(200).json({
@@ -91,7 +82,6 @@ exports.getAdminsContoller = (req, res) => {
 //@des Get Single Admin
 //@route GET /api/v1/admins/:id
 //@access Private
-
 exports.getAdminController = (req, res) => {
   try {
     res.status(200).json({
@@ -109,7 +99,6 @@ exports.getAdminController = (req, res) => {
 //@des Update Admin
 //@route UPDATE /api/v1/admins/:id
 //@access Private
-
 exports.updateAdminController = (req, res) => {
   try {
     res.status(201).json({
@@ -127,7 +116,6 @@ exports.updateAdminController = (req, res) => {
 //@des Delete Admin
 //@route DELETE /api/v1/admins/:id
 //@access Private
-
 exports.deleteAdminController = (req, res) => {
   try {
     res.status(200).json({
@@ -145,7 +133,6 @@ exports.deleteAdminController = (req, res) => {
 //@des Admin Suspends a Teacher
 //@route PUT /api/v1/admins/suspend/teacher/:id
 //@access Private
-
 exports.adminSuspendTeacherController = (req, res) => {
   try {
     res.status(200).json({
@@ -163,7 +150,6 @@ exports.adminSuspendTeacherController = (req, res) => {
 //@des Admin Un-Suspends a Teacher
 //@route PUT /api/v1/admins/unsuspend/teacher/:id
 //@access Private
-
 exports.adminUnSuspendTeacherController = (req, res) => {
   try {
     res.status(200).json({
@@ -181,7 +167,6 @@ exports.adminUnSuspendTeacherController = (req, res) => {
 //@des Admin Withdraw a Teacher
 //@route PUT /api/v1/admins/withdraw/teacher/:id
 //@access Private
-
 exports.adminWithdrawTeacherController = (req, res) => {
   try {
     res.status(200).json({
@@ -199,7 +184,6 @@ exports.adminWithdrawTeacherController = (req, res) => {
 //@des Admin Un-Withdraw a Teacher
 //@route PUT /api/v1/admins/unwithdraw/teacher/:id
 //@access Private
-
 exports.adminUnWithdrawTeacherController = (req, res) => {
   try {
     res.status(200).json({
@@ -217,7 +201,6 @@ exports.adminUnWithdrawTeacherController = (req, res) => {
 //@des Admin Publish Exam Results
 //@route PUT /api/v1/admins/publish/exma/:id
 //@access Private
-
 exports.adminPublishResults = (req, res) => {
   try {
     res.status(200).json({
@@ -235,7 +218,6 @@ exports.adminPublishResults = (req, res) => {
 //@des Admin Un-Publish Exam Results
 //@route PUT /api/v1/admins/unpublish/exma/:id
 //@access Private
-
 exports.adminUnPublishResults = (req, res) => {
   try {
     res.status(200).json({
